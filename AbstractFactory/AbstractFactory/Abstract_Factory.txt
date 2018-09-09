@@ -1,0 +1,76 @@
+//https://www.c-sharpcorner.com/UploadFile/bd5be5/design-patterns-in-net/
+
+class client{
+            Delivery _delievry;
+            publicPacking _packing;
+            
+            public client(PacknDeliveryFactory factory){
+                _delievry = factory.CreateDelivery();
+                _packing = factory.CreatePacking();
+            }
+            public Delivery deliveryFactory{
+                get { return _delievry;}
+            }
+            
+            public Packing packingFactory{
+                 get { return _packing;}
+            }
+            
+        }
+        
+        public abstract class PacknDeliveryFactory{
+            public abstract Packing CreatePacking();
+            public abstract Delivery CreateDelivery();
+        
+        }
+        
+        public class DelicateFactory:PacknDeliveryFactory{
+            public override Packing CreatePacking(){
+                return new ShockProofPacking();
+            }
+            public override Delivery CreateDelivery(){
+                return new ShockProofDelivery();
+            }
+        }
+        public class StanardFactory:PacknDeliveryFactory{
+            public override Packing CreatePacking(){
+                return new StanardPacking();
+            }
+            
+            public override Delivery CreateDelivery(){
+                return new StanardDelivery();
+            }
+            
+        }
+        
+        public abstract class Packing{
+        }
+        public class StanardPacking:Packing{
+        }
+        public class ShockProofPacking:Packing{
+        }
+        
+        public abstract class Delivery{
+        }
+        
+        public class StanardDelivery: Delivery{
+        }
+        
+        public class ShockProofDelivery:Delivery{
+            
+        }
+        
+        public static void Main(string[] args)
+        {
+            //Your code goes here
+            PacknDeliveryFactory sf = new StanardFactory();
+            client cl = new client(sf);
+            Console.WriteLine(cl.deliveryFactory.GetType().ToString());
+            Console.WriteLine(cl.packingFactory.GetType().ToString());
+            
+             sf = new DelicateFactory();
+             cl = new client(sf);
+            Console.WriteLine(cl.deliveryFactory.GetType().ToString());
+            Console.WriteLine(cl.packingFactory.GetType().ToString());
+            Console.WriteLine("Hello, world!");
+        }
